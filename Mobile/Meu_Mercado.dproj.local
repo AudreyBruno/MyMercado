@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/01/11 17:05:53.000.126,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:06:43.000.498,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:13:05.000.854,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:23:09.000.435,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 09:35:36.000.288,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 09:36:03.000.869,C:\Audrey\Delphi\Projects\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untLogin.pas</Transaction>
+    <Transaction>2023/01/19 09:36:03.000.869,C:\Audrey\Delphi\Projects\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untLogin.fmx</Transaction>
+    <Transaction>2023/01/19 09:36:16.000.003,C:\Audrey\Delphi\Projects\Project1.dproj=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Meu_Mercado.dproj</Transaction>
+    <Transaction>2023/01/19 11:43:50.000.565,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 11:44:32.000.636,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPrincipal.fmx</Transaction>
+    <Transaction>2023/01/19 11:44:32.000.636,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPrincipal.pas</Transaction>
+    <Transaction>2023/01/20 11:08:51.000.046,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/20 11:11:33.000.828,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untMercado.fmx</Transaction>
+    <Transaction>2023/01/20 11:11:33.000.828,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untMercado.pas</Transaction>
+    <Transaction>2023/01/20 11:45:25.000.031,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/20 11:47:29.000.343,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutosCard.pas</Transaction>
+    <Transaction>2023/01/20 11:47:29.000.343,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutosCard.fmx</Transaction>
+    <Transaction>2023/01/25 15:51:59.000.822,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/25 15:52:37.000.229,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untSplash.pas</Transaction>
+    <Transaction>2023/01/25 15:52:37.000.229,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untSplash.fmx</Transaction>
+    <Transaction>2023/01/25 17:19:15.000.197,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/25 17:20:04.000.368,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untProduto.pas</Transaction>
+    <Transaction>2023/01/25 17:20:04.000.368,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untProduto.fmx</Transaction>
+    <Transaction>2023/01/26 09:24:32.000.573,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:25:35.000.382,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untCarrinho.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:25:35.000.382,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untCarrinho.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx</Transaction>
+    <Transaction>2023/01/26 09:43:35.000.512,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:44:23.000.045,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutoCarrinho.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx</Transaction>
+    <Transaction>2023/01/26 09:44:23.000.045,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutoCarrinho.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:45:13.000.045,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutoCarrinho.pas=</Transaction>
+    <Transaction>2023/01/26 09:45:59.000.630,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:46:34.000.276,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutosLista.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 09:46:34.000.276,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Frames\untFrameProdutosLista.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx</Transaction>
+    <Transaction>2023/01/26 10:51:20.000.861,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 10:52:27.000.878,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPedidos.pas</Transaction>
+    <Transaction>2023/01/26 10:52:27.000.878,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPedidos.fmx</Transaction>
+    <Transaction>2023/01/26 11:39:10.000.621,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 11:40:02.000.703,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPedido.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/26 11:40:02.000.703,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untPedido.fmx=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.fmx</Transaction>
+    <Transaction>2023/01/27 11:04:23.000.577,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/27 11:05:06.000.704,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\DataModule\untDmUsuarios.dfm=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.dfm</Transaction>
+    <Transaction>2023/01/27 11:05:06.000.704,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\DataModule\untDmUsuarios.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/27 11:23:25.000.362,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Units\uLoading.pas</Transaction>
+    <Transaction>2023/01/27 14:58:06.000.094,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/27 14:58:21.000.590,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\DataModule\untDmMercados.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/27 14:58:21.000.590,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\DataModule\untDmMercados.dfm=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.dfm</Transaction>
+    <Transaction>2023/01/27 16:12:05.000.782,=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/01/27 16:12:38.000.087,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Unit1.pas=C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\Units\untConsts.pas</Transaction>
+    <Transaction>2023/02/02 14:47:36.000.823,=C:\Audrey\Projetos\Estudo\AppMercado\Mobile\Unit1.pas</Transaction>
+    <Transaction>2023/02/02 14:47:57.000.163,C:\Audrey\Projetos\Estudo\AppMercado\Mobile\Unit1.pas=C:\Audrey\Projetos\Estudo\AppMercado\Mobile\Units\untFunctions.pas</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5" Android64=""/>
+	</ActiveMobileDevice>
+</BorlandProject>

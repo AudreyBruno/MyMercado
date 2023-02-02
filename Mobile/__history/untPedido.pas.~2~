@@ -1,0 +1,45 @@
+unit untPedido;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Layouts, FMX.ListBox, FMX.Controls.Presentation, FMX.StdCtrls;
+
+type
+  TfrmPedido = class(TForm)
+    Layout1: TLayout;
+    lblEnd: TLabel;
+    Label1: TLabel;
+    LayoutCabecalho: TLayout;
+    lblTitle: TLabel;
+    imgVoltar: TImage;
+    ListBoxProdutosCarinho: TListBox;
+    Rectangle1: TRectangle;
+    Layout2: TLayout;
+    Label2: TLabel;
+    Label3: TLabel;
+    Layout3: TLayout;
+    Label4: TLabel;
+    Label5: TLabel;
+    Layout4: TLayout;
+    Label6: TLabel;
+    Label7: TLabel;
+    Layout5: TLayout;
+    Label8: TLabel;
+    Label9: TLabel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPedido: TfrmPedido;
+
+implementation
+
+{$R *.fmx}
+
+end.

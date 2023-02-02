@@ -1,0 +1,79 @@
+unit untPedidos;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListView.Types,
+  FMX.ListView.Appearances, FMX.ListView.Adapters.Base, FMX.ListView;
+
+type
+  TfrmPedidos = class(TForm)
+    LayoutCabecalho: TLayout;
+    lblTitle: TLabel;
+    imgVoltar: TImage;
+    ListViewPedidos: TListView;
+    procedure FormShow(Sender: TObject);
+  private
+    procedure AddPedidoLv(id_pedido, qtd_Itens: integer; nome, endereco, dt_pedido: string; vl_pedido: double);
+    procedure ListarPedidos;
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPedidos: TfrmPedidos;
+
+implementation
+
+{$R *.fmx}
+
+uses untPrincipal;
+
+procedure TfrmPedidos.AddPedidoLv(id_pedido, qtd_Itens: integer; nome, endereco, dt_pedido: string; vl_pedido: double);
+var
+  img: TListItemImage;
+  txt: TListItemText;
+begin
+  with  ListViewPedidos.Items.Add do
+    begin
+      Height := 120;
+      Tag := id_pedido;
+
+      img := TListItemImage(Objects.FindDrawable('imgShop'));
+      img.Bitmap := frmPrincipal.imgShop.Bitmap;
+
+      txt := TListItemText(Objects.FindDrawable('txtNome'));
+      txt.Text := nome;
+
+      txt := TListItemText(Objects.FindDrawable('txtNumeroPedido'));
+      txt.Text := 'Pedido' + id_pedido.ToString;
+
+      txt := TListItemText(Objects.FindDrawable('txtEnd'));
+      txt.Text := endereco;
+
+      txt := TListItemText(Objects.FindDrawable('txtValor'));
+      txt.Text := FormatFloat('R$ #,##0.00', vl_pedido) + ' - ' + qtd_Itens.ToString + ' itens';
+
+      txt := TListItemText(Objects.FindDrawable('txtData'));
+      txt.Text := dt_pedido;
+    end;
+end;
+
+procedure TfrmPedidos.ListarPedidos;
+begin
+  AddPedidoLv(1, 3, 'Pão de Açucar 1', 'Av. Paulista, 2689', '26/01/2023', 30);
+  AddPedidoLv(1, 3, 'Pão de Açucar 1', 'Av. Paulista, 2689', '26/01/2023', 30);
+  AddPedidoLv(1, 3, 'Pão de Açucar 1', 'Av. Paulista, 2689', '26/01/2023', 30);
+  AddPedidoLv(1, 3, 'Pão de Açucar 1', 'Av. Paulista, 2689', '26/01/2023', 30);
+  AddPedidoLv(1, 3, 'Pão de Açucar 1', 'Av. Paulista, 2689', '26/01/2023', 30);
+end;
+
+procedure TfrmPedidos.FormShow(Sender: TObject);
+begin
+  ListarPedidos;
+end;
+
+end.

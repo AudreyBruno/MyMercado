@@ -1,0 +1,32 @@
+program Meu_Mercado;
+
+uses
+  System.StartUpCopy,
+  FMX.Forms,
+  untLogin in 'untLogin.pas' {frmLogin},
+  untPrincipal in 'untPrincipal.pas' {frmPrincipal},
+  untMercado in 'untMercado.pas' {frmMercado},
+  untFrameProdutosCard in 'Frames\untFrameProdutosCard.pas' {frmFrameProdutoCard: TFrame},
+  untSplash in 'untSplash.pas' {frmSplash},
+  untProduto in 'untProduto.pas' {frmProduto},
+  untCarrinho in 'untCarrinho.pas' {frmCarrinho},
+  untFrameProdutosLista in 'Frames\untFrameProdutosLista.pas' {frmFrameProdutosLista: TFrame},
+  untPedidos in 'untPedidos.pas' {frmPedidos},
+  untPedido in 'untPedido.pas' {frmPedido},
+  untDmUsuarios in 'DataModule\untDmUsuarios.pas' {DmUsuarios: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmMercado, frmMercado);
+  Application.CreateForm(TfrmSplash, frmSplash);
+  Application.CreateForm(TfrmProduto, frmProduto);
+  Application.CreateForm(TfrmCarrinho, frmCarrinho);
+  Application.CreateForm(TfrmPedidos, frmPedidos);
+  Application.CreateForm(TfrmPedido, frmPedido);
+  Application.CreateForm(TDmUsuarios, DmUsuarios);
+  Application.Run;
+end.

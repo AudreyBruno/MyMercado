@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2023/01/11 17:05:53.000.126,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:06:43.000.498,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:13:05.000.854,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/11 17:23:09.000.435,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 09:33:44.007,=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 09:34:54.817,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untMobile.fmx=C:\Audrey\Delphi\Projects\Unit1.fmx</Transaction>
+    <Transaction>2023/01/19 09:34:54.817,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\untMobile.pas=C:\Audrey\Delphi\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/01/19 09:35:01.421,C:\Audrey\Delphi\Projects\99Coders\AppMercado\Mobile\AppMercado.dproj=C:\Audrey\Delphi\Projects\Project1.dproj</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>
