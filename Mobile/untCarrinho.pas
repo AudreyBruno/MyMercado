@@ -13,28 +13,27 @@ type
     lblTitle: TLabel;
     imgVoltar: TImage;
     Layout1: TLayout;
-    lblEnd: TLabel;
-    Label1: TLabel;
+    lblNomeMercado: TLabel;
+    lblEndMercado: TLabel;
     btnBuscar: TButton;
     Rectangle1: TRectangle;
     Layout2: TLayout;
     Label2: TLabel;
-    Label3: TLabel;
+    lblSubTotal: TLabel;
     Layout3: TLayout;
     Label4: TLabel;
-    Label5: TLabel;
+    lblValorTotal: TLabel;
     Layout4: TLayout;
     Label6: TLabel;
-    Label7: TLabel;
+    lblTaxaEntrega: TLabel;
     Layout5: TLayout;
     Label8: TLabel;
-    Label9: TLabel;
+    lblEndEntrega: TLabel;
     ListBoxProdutosCarinho: TListBox;
     procedure FormShow(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
   private
-    procedure AddProduto(id_produto: integer; descricao: string; qtd,
-      valor_unit: double; foto: TStream);
+    procedure AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
     procedure CarregarCarinho;
     { Private declarations }
   public
@@ -48,9 +47,9 @@ implementation
 
 {$R *.fmx}
 
-uses untPrincipal, untFrameProdutosLista;
+uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios;
 
-procedure TfrmCarrinho.AddProduto(id_produto: integer; descricao: string; qtd, valor_unit: double; foto: TStream);
+procedure TfrmCarrinho.AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
 var
   item: TListBoxItem;
   frame: TfrmFrameProdutosLista;
@@ -73,13 +72,52 @@ begin
 end;
 
 procedure TfrmCarrinho.CarregarCarinho;
+var
+  SubTotal: Double;
 begin
-  AddProduto(1, 'Café Pilão Torrado E Moído - 100g', 6, 10, nil);
-  AddProduto(2, 'Café Pilão Torrado E Moído - 200g', 5, 15, nil);
-  AddProduto(3, 'Café Pilão Torrado E Moído - 300g', 4, 20, nil);
-  AddProduto(4, 'Café Pilão Torrado E Moído - 400g', 3, 25, nil);
-  AddProduto(5, 'Café Pilão Torrado E Moído - 500g', 2, 30, nil);
-  AddProduto(6, 'Café Pilão Torrado E Moído - 600g', 1, 35, nil);
+  ListBoxProdutosCarinho.Items.Clear;
+
+  try
+    DmMercados.ListarCarrinhoLocal;
+    DmMercados.ListarItemCarrinhoLocal;
+    DmUsuarios.ListarUsuarioLocal;
+
+    //Dados Mercado
+    with DmMercados.FDQryCarrinho do
+      begin
+        lblNomeMercado.Text := FieldByName('NOME_MERCADO').Value;
+        lblEndMercado.Text := FieldByName('ENDERECO_MERCADO').Value;
+        lblTaxaEntrega.Text := FormatFloat('R$ #,##0.00', FieldByName('TAXA_ENTREGA').AsFloat);
+        lblTaxaEntrega.TagFloat := FieldByName('TAXA_ENTREGA').AsFloat;
+      end;
+
+    //Dados Usuario
+    lblEndEntrega.Text := DmUsuarios.FDQryUsuario.FieldByName('ENDERECO').Value;
+
+    //Itens do Carrinho
+    SubTotal := 0;
+    with DmMercados.FDQryCarrinhoItem do
+      begin
+        while not EOF do
+          begin
+            AddProduto(FieldByName('ID_PRODUTO').AsInteger,
+                       FieldByName('NOME').AsString,
+                       FieldByName('URL_FOTO').AsString,
+                       FieldByName('QTD').AsFloat,
+                       FieldByName('VALOR_UNITARIO').AsFloat);
+
+            SubTotal := SubTotal + FieldByName('VALOR_TOTAL').AsFloat;
+
+            Next;
+          end;
+      end;
+
+    lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
+    lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
+
+  except on ex:Exception do
+    ShowMessage('Erro ao carregar carrinho: ' + ex.Message);
+  end;
 end;
 
 procedure TfrmCarrinho.FormShow(Sender: TObject);

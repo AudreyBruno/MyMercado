@@ -1,5 +1,0 @@
-object DmUsuarios: TDmUsuarios
-  OldCreateOrder = False
-  Height = 441
-  Width = 515
-end

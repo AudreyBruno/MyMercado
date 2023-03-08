@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls, untFunctions,
-  uLoading, System.Net.HttpClientComponent, System.Net.HttpClient;
+  uLoading, System.Net.HttpClientComponent, System.Net.HttpClient, FMX.DialogService;
 
 type
   TfrmProduto = class(TForm)
@@ -30,8 +30,13 @@ type
     procedure imgVoltarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure imgMaisClick(Sender: TObject);
+    procedure btnAddClick(Sender: TObject);
   private
     FId_Produto: integer;
+    FId_Mercado: integer;
+    FNome_Mercado: string;
+    FTaxa_Entrega: double;
+    FEndereco_Mercado: string;
     procedure CarregarDados;
     procedure ThreadDadosTerminate(Sender: TObject);
     procedure Qtd(valor: integer);
@@ -39,6 +44,10 @@ type
   public
     { Public declarations }
     property Id_Produto: integer read FId_Produto write FId_Produto;
+    property Id_Mercado: integer read FId_Mercado write FId_Mercado;
+    property Nome_Mercado: string read FNome_Mercado write FNome_Mercado;
+    property Endereco_Mercado: string read FEndereco_Mercado write FEndereco_Mercado;
+    property Taxa_Entrega: double read FTaxa_Entrega write FTaxa_Entrega;
   end;
 
 var
@@ -86,6 +95,41 @@ begin
     end;
 end;
 
+procedure TfrmProduto.btnAddClick(Sender: TObject);
+begin
+  if DmMercados.ExistePedidoLocal(Id_Mercado) then
+    begin
+      TDialogService.MessageDialog('Você só pode adicionar itens de um mercado por vez. Deseja esvaziar a sacola' +
+      ' e adicionar esse item?',
+      TMsgDlgType.mtConfirmation,
+      [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo],
+      TMsgDlgBtn.mbNo,
+      0,
+      procedure(const AResult: TModalResult)
+        begin
+          if AResult = mrYes then
+            begin
+              DmMercados.LimparCarrinhoLocal;
+              DmMercados.AdicionarCarrinhoLocal(Id_Mercado, Nome_Mercado, Endereco_Mercado,
+                                          Taxa_Entrega);
+              DmMercados.AdicionarItemCarrinhoLocal(Id_Produto, imgProd.TagString,
+                                              lblNome.Text, lblUnidade.Text, lblQtd.Tag,
+                                              lblPreco.TagFloat);
+            end;
+        end);
+    end
+  else
+    begin
+      DmMercados.AdicionarCarrinhoLocal(Id_Mercado, Nome_Mercado, Endereco_Mercado,
+                                  Taxa_Entrega);
+      DmMercados.AdicionarItemCarrinhoLocal(Id_Produto, imgProd.TagString,
+                                      lblNome.Text, lblUnidade.Text, lblQtd.Tag,
+                                      lblPreco.TagFloat);
+    end;
+
+  Close;
+end;
+
 procedure TfrmProduto.CarregarDados;
 var
   t: TThread;
@@ -111,8 +155,10 @@ begin
             lblDescricao.Text := FieldByName('descricao').AsString;
             lblUnidade.Text := FieldByName('unidade').AsString;
             lblPreco.Text := FormatFloat('R$#,##0.00', FieldByName('preco').AsFloat);
+            lblPreco.TagFloat := FieldByName('preco').AsFloat;
           end);
 
+        imgProd.TagString := FieldByName('url_foto').AsString;
         LoadImageFromURL(imgProd.Bitmap, FieldByName('url_foto').AsString);
       end;
   end);

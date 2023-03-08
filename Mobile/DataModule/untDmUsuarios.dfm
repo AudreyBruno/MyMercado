@@ -17,21 +17,21 @@ object DmUsuarios: TDmUsuarios
   object FDConnection: TFDConnection
     AfterConnect = FDConnectionAfterConnect
     BeforeConnect = FDConnectionBeforeConnect
-    Left = 176
+    Left = 120
     Top = 16
   end
-  object FDQuery: TFDQuery
+  object FDQryGeral: TFDQuery
     Connection = FDConnection
-    Left = 264
+    Left = 200
     Top = 16
   end
   object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
     Left = 184
     Top = 112
   end
-  object qryUsuario: TFDQuery
+  object FDQryUsuario: TFDQuery
     Connection = FDConnection
-    Left = 40
-    Top = 88
+    Left = 272
+    Top = 16
   end
 end

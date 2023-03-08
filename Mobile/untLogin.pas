@@ -142,7 +142,7 @@ begin
   try
     DmUsuarios.ListarUsuarioLocal;
 
-    if DmUsuarios.qryUsuario.RecordCount > 0 then
+    if DmUsuarios.FDQryUsuario.RecordCount > 0 then
       begin
         if not Assigned(frmPrincipal) then
           Application.CreateForm(TfrmPrincipal, frmPrincipal);

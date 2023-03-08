@@ -156,6 +156,7 @@ begin
             lblTitle.Text := FieldByName('nome').AsString;
             lblEnd.Text := FieldByName('endereco').AsString;
             lblTaxa.Text := 'Tx. Entreg: ' + FormatFloat('R$#,##0.00', FieldByName('vl_entrega').AsFloat);
+            lblTaxa.TagFloat := FieldByName('vl_entrega').AsFloat;
             lblCompraMin.Text :=  'Compra Mín: ' + FormatFloat('R$#,##0.00', FieldByName('vl_compra_min').AsFloat);
           end);
       end;
@@ -334,6 +335,11 @@ procedure TfrmMercado.ListBoxProdutosItemClick(const Sender: TCustomListBox;
 begin
   if not Assigned(frmProduto) then
     Application.CreateForm(TfrmProduto, frmProduto);
+
+  frmProduto.Id_Mercado := frmMercado.Id_Mercado;
+  frmProduto.Nome_Mercado := lblTitle.Text;
+  frmProduto.Endereco_Mercado := lblEnd.Text;
+  frmProduto.Taxa_Entrega := lblTaxa.TagFloat;
 
   frmProduto.Id_Produto := Item.Tag;
   frmProduto.Show;
