@@ -49,6 +49,35 @@ implementation
 
 uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios;
 
+procedure TfrmCarrinho.DownloadFoto(lb: TListBox);
+var
+  t: TThread;
+  foto: TBitmap;
+  frame: TfrmFrameProdutosLista;
+begin
+  // Carregar imagens...
+  t := TThread.CreateAnonymousThread(procedure
+  var
+    i : integer;
+  begin
+    for i := 0 to lb.Items.Count - 1 do
+      begin
+        frame := TfrmFrameProdutoCard(lb.ItemByIndex(i).Components[0]);
+
+        if frame.imgProduto.TagString <> '' then
+          begin
+            foto := TBitmap.Create;
+            LoadImageFromURL(foto, frame.imgProduto.TagString);
+
+            frame.imgProduto.TagString := '';
+            frame.imgProduto.bitmap := foto;
+          end;
+      end;
+  end);
+
+  t.Start;
+end;
+
 procedure TfrmCarrinho.AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
 var
   item: TListBoxItem;
@@ -75,13 +104,15 @@ procedure TfrmCarrinho.CarregarCarinho;
 var
   SubTotal: Double;
 begin
+  ListBoxProdutosCarinho.Items.Clear;
+
   try
     DmMercados.ListarCarrinhoLocal;
     DmMercados.ListarItemCarrinhoLocal;
     DmUsuarios.ListarUsuarioLocal;
 
     //Dados Mercado
-    with DmMercados.FDQryMercado do
+    with DmMercados.FDQryCarrinho do
       begin
         lblNomeMercado.Text := FieldByName('NOME_MERCADO').Value;
         lblEndMercado.Text := FieldByName('ENDERECO_MERCADO').Value;
@@ -110,7 +141,8 @@ begin
           end;
       end;
 
-    lblSubTotal.Text := FormatFloat('R$ #,##0.00', FieldByName('TAXA_ENTREGA').AsFloat);
+    lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
+    lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
 
   except on ex:Exception do
     ShowMessage('Erro ao carregar carrinho: ' + ex.Message);

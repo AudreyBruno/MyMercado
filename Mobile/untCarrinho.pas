@@ -35,6 +35,7 @@ type
   private
     procedure AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
     procedure CarregarCarinho;
+    procedure DownloadFoto(lb: TListBox);
     { Private declarations }
   public
     { Public declarations }
@@ -47,7 +48,30 @@ implementation
 
 {$R *.fmx}
 
-uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios;
+uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios,
+  untFunctions;
+
+procedure TfrmCarrinho.DownloadFoto(lb: TListBox);
+var
+  t: TThread;
+  frame: TfrmFrameProdutosLista;
+begin
+  // Carregar imagens...
+  t := TThread.CreateAnonymousThread(procedure
+  var
+    i : integer;
+  begin
+    for i := 0 to lb.Items.Count - 1 do
+      begin
+        frame := TfrmFrameProdutosLista(lb.ItemByIndex(i).Components[0]);
+
+        if frame.imgProduto.TagString <> '' then
+          LoadImageFromURL(frame.imgProduto.Bitmap, frame.imgProduto.TagString);
+      end;
+  end);
+
+  t.Start;
+end;
 
 procedure TfrmCarrinho.AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
 var
@@ -62,7 +86,7 @@ begin
 
   //Frame
   frame := TfrmFrameProdutosLista.Create(item);
-  //frame.imgProduto.Bitmap :=
+  frame.imgProduto.TagString := url_foto;
   frame.lblDescricao.Text := descricao;
   frame.lblQtd.Text := qtd.ToString + ' x ' + FormatFloat('R$ #,##0.00', valor_unit);
   frame.lblPreco.Text := FormatFloat('R$ #,##0.00', qtd * valor_unit);
@@ -114,6 +138,9 @@ begin
 
     lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
     lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
+
+    //Carrega as fotos
+    DownloadFoto(ListBoxProdutosCarinho);
 
   except on ex:Exception do
     ShowMessage('Erro ao carregar carrinho: ' + ex.Message);

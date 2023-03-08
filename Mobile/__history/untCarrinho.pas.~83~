@@ -75,13 +75,15 @@ procedure TfrmCarrinho.CarregarCarinho;
 var
   SubTotal: Double;
 begin
+  ListBoxProdutosCarinho.Items.Clear;
+
   try
     DmMercados.ListarCarrinhoLocal;
     DmMercados.ListarItemCarrinhoLocal;
     DmUsuarios.ListarUsuarioLocal;
 
     //Dados Mercado
-    with DmMercados.FDQryMercado do
+    with DmMercados.FDQryCarrinho do
       begin
         lblNomeMercado.Text := FieldByName('NOME_MERCADO').Value;
         lblEndMercado.Text := FieldByName('ENDERECO_MERCADO').Value;
@@ -104,11 +106,14 @@ begin
                        FieldByName('QTD').AsFloat,
                        FieldByName('VALOR_UNITARIO').AsFloat);
 
-            SubTotal := SubTotal + FieldByName('VALOR_UNITARIO').AsFloat;
+            SubTotal := SubTotal + FieldByName('VALOR_TOTAL').AsFloat;
 
             Next;
           end;
       end;
+
+    lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
+    lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
 
   except on ex:Exception do
     ShowMessage('Erro ao carregar carrinho: ' + ex.Message);
