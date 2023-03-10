@@ -283,7 +283,6 @@ object frmCarrinho: TfrmCarrinho
     StyleLookup = 'ButtonLoginGreen'
     TabOrder = 2
     Text = 'FINALIZAR PEDIDO'
-    OnClick = btnFinalizaPedidoClick
   end
   object Rectangle1: TRectangle
     Align = Bottom

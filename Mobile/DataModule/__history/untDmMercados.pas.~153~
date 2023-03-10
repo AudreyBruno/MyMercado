@@ -17,6 +17,7 @@ type
     TabDetalheProd: TFDMemTable;
     FDQryMercado: TFDQuery;
     FDQryCarrinho: TFDQuery;
+    FDQryCarrinhoItem: TFDQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -34,6 +35,9 @@ type
     procedure LimparCarrinhoLocal;
     procedure ListarCarrinhoLocal;
     procedure ListarItemCarrinhoLocal;
+    function JsonPedido(vl_subtotal, vl_entrega, vl_total: Double): TJsonObject;
+    procedure InserirPedido(jsonPed: TJsonObject);
+    function JsonPedidoItem: TJSONArray;
     { Public declarations }
   end;
 
@@ -229,13 +233,78 @@ end;
 
 procedure TDmMercados.ListarItemCarrinhoLocal;
 begin
-  with FDQryCarrinho do
+  with FDQryCarrinhoItem do
     begin
       Active := False;
       SQL.Clear;
       SQL.Add('SELECT * FROM TAB_CARRINHO_ITEM');
       Active := True;
     end;
+end;
+
+function TDmMercados.JsonPedido(vl_subtotal, vl_entrega, vl_total: Double): TJsonObject;
+var
+  jsonPed: TJSONObject;
+begin
+  ListarCarrinhoLocal;
+  DmUsuarios.ListarUsuarioLocal;
+
+  jsonPed := TJSONObject.Create;
+
+  jsonPed.AddPair('id_mercado', TJSONNumber.Create(FDQryCarrinho.FieldByName('id_mercado').AsInteger));
+  jsonPed.AddPair('id_usuario', TJSONNumber.Create(DmUsuarios.FDQryUsuario.FieldByName('id_mercado').AsInteger));
+  jsonPed.AddPair('vl_subtotal', TJSONNumber.Create(vl_subtotal));
+  jsonPed.AddPair('vl_entrega', TJSONNumber.Create(vl_entrega));
+  jsonPed.AddPair('vl_total', TJSONNumber.Create(vl_total));
+  jsonPed.AddPair('endereco', DmUsuarios.FDQryUsuario.FieldByName('endereco').AsString);
+  jsonPed.AddPair('bairro', DmUsuarios.FDQryUsuario.FieldByName('bairro').AsString);
+  jsonPed.AddPair('cidade', DmUsuarios.FDQryUsuario.FieldByName('cidade').AsString);
+  jsonPed.AddPair('uf', DmUsuarios.FDQryUsuario.FieldByName('uf').AsString);
+  jsonPed.AddPair('cep', DmUsuarios.FDQryUsuario.FieldByName('cep').AsString);
+
+  Result := jsonPed;
+end;
+
+function TDmMercados.JsonPedidoItem: TJSONArray;
+var
+  arrayItens: TJSONArray;
+  jsonItem: TJSONObject;
+begin
+  ListarItemCarrinhoLocal;
+
+  arrayItens := TJSONArray.Create;
+
+  with FDQryCarrinhoItem do
+    begin
+      while NOT Eof do
+        begin
+          jsonItem := TJSONObject.Create;
+
+          jsonItem.AddPair('id_produto', TJSONNumber.Create(FieldByName('id_mercado').AsInteger));
+          jsonItem.AddPair('qtd', TJSONNumber.Create(FieldByName('id_mercado').AsInteger));
+          jsonItem.AddPair('vl_unitario', TJSONNumber.Create(FieldByName('id_mercado').AsInteger));
+          jsonItem.AddPair('vl_total', TJSONNumber.Create(FieldByName('id_mercado').AsInteger));
+
+          Next;
+        end;
+    end;
+
+  Result := arrayItens;
+end;
+
+procedure TDmMercados.InserirPedido(jsonPed: TJsonObject);
+var
+  resp: IResponse;
+begin
+  resp := TRequest.New.BaseURL(BASE_URL)
+                  .Resource('pedidos')
+                  .AddBody(jsonPed.ToJSON)
+                  .Accept('application/json')
+                  .BasicAuthentication(USER_NAME, PASSWORD)
+                  .Post;
+
+  if (resp.StatusCode <> 201) then
+    raise Exception.Create(resp.Content);
 end;
 
 end.

@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox, System.JSON;
 
 type
   TfrmCarrinho = class(TForm)
@@ -15,7 +15,7 @@ type
     Layout1: TLayout;
     lblNomeMercado: TLabel;
     lblEndMercado: TLabel;
-    btnBuscar: TButton;
+    btnFinalizaPedido: TButton;
     Rectangle1: TRectangle;
     Layout2: TLayout;
     Label2: TLabel;
@@ -32,9 +32,12 @@ type
     ListBoxProdutosCarinho: TListBox;
     procedure FormShow(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
+    procedure btnFinalizaPedidoClick(Sender: TObject);
   private
     procedure AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
     procedure CarregarCarinho;
+    procedure DownloadFoto(lb: TListBox);
+    procedure ThreadPedidoTerminate(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -47,7 +50,46 @@ implementation
 
 {$R *.fmx}
 
-uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios;
+uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios,
+  untFunctions, uLoading;
+
+procedure TfrmCarrinho.ThreadPedidoTerminate(Sender: TObject);
+begin
+  TLoading.Hide;
+  if Sender is TThread then
+    begin
+      if Assigned(TThread(Sender).FatalException) then
+        begin
+          ShowMessage(Exception(TThread(Sender).FatalException).Message);
+          Exit;
+        end;
+    end;
+
+  DmMercados.LimparCarrinhoLocal;
+  Close;
+end;
+
+procedure TfrmCarrinho.DownloadFoto(lb: TListBox);
+var
+  t: TThread;
+  frame: TfrmFrameProdutosLista;
+begin
+  // Carregar imagens...
+  t := TThread.CreateAnonymousThread(procedure
+  var
+    i : integer;
+  begin
+    for i := 0 to lb.Items.Count - 1 do
+      begin
+        frame := TfrmFrameProdutosLista(lb.ItemByIndex(i).Components[0]);
+
+        if frame.imgProduto.TagString <> '' then
+          LoadImageFromURL(frame.imgProduto.Bitmap, frame.imgProduto.TagString);
+      end;
+  end);
+
+  t.Start;
+end;
 
 procedure TfrmCarrinho.AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
 var
@@ -62,7 +104,7 @@ begin
 
   //Frame
   frame := TfrmFrameProdutosLista.Create(item);
-  //frame.imgProduto.Bitmap :=
+  frame.imgProduto.TagString := url_foto;
   frame.lblDescricao.Text := descricao;
   frame.lblQtd.Text := qtd.ToString + ' x ' + FormatFloat('R$ #,##0.00', valor_unit);
   frame.lblPreco.Text := FormatFloat('R$ #,##0.00', qtd * valor_unit);
@@ -71,10 +113,31 @@ begin
   ListBoxProdutosCarinho.AddObject(item);
 end;
 
+procedure TfrmCarrinho.btnFinalizaPedidoClick(Sender: TObject);
+var
+  t: TThread;
+  jsonPedido: TJSONObject;
+  arrayItem: TJSONArray;
+begin
+  TLoading.Show(frmCarrinho, '');
+
+  t := TThread.CreateAnonymousThread(procedure
+    begin
+      jsonPedido := DmMercados.JsonPedido(lblSubTotal.TagFloat, lblTaxaEntrega.TagFloat, lblValorTotal.TagFloat);
+
+      DmMercados.InserirPedido(jsonPedido);
+    end);
+
+  t.OnTerminate := ThreadPedidoTerminate;
+  t.Start;
+end;
+
 procedure TfrmCarrinho.CarregarCarinho;
 var
   SubTotal: Double;
 begin
+  ListBoxProdutosCarinho.Items.Clear;
+
   try
     DmMercados.ListarCarrinhoLocal;
     DmMercados.ListarItemCarrinhoLocal;
@@ -112,6 +175,9 @@ begin
 
     lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
     lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
+
+    //Carrega as fotos
+    DownloadFoto(ListBoxProdutosCarinho);
 
   except on ex:Exception do
     ShowMessage('Erro ao carregar carrinho: ' + ex.Message);

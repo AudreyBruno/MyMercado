@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox;
+  FMX.Controls.Presentation, FMX.StdCtrls, FMX.Layouts, FMX.ListBox, System.JSON;
 
 type
   TfrmCarrinho = class(TForm)
@@ -15,7 +15,7 @@ type
     Layout1: TLayout;
     lblNomeMercado: TLabel;
     lblEndMercado: TLabel;
-    btnBuscar: TButton;
+    btnFinalizaPedido: TButton;
     Rectangle1: TRectangle;
     Layout2: TLayout;
     Label2: TLabel;
@@ -32,10 +32,12 @@ type
     ListBoxProdutosCarinho: TListBox;
     procedure FormShow(Sender: TObject);
     procedure imgVoltarClick(Sender: TObject);
+    procedure btnFinalizaPedidoClick(Sender: TObject);
   private
     procedure AddProduto(id_produto: integer; descricao, url_foto: string; qtd, valor_unit: double);
     procedure CarregarCarinho;
     procedure DownloadFoto(lb: TListBox);
+    procedure ThreadPedidoTerminate(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -49,7 +51,23 @@ implementation
 {$R *.fmx}
 
 uses untPrincipal, untFrameProdutosLista, untDmMercados, untDmUsuarios,
-  untFunctions;
+  untFunctions, uLoading;
+
+procedure TfrmCarrinho.ThreadPedidoTerminate(Sender: TObject);
+begin
+  TLoading.Hide;
+  if Sender is TThread then
+    begin
+      if Assigned(TThread(Sender).FatalException) then
+        begin
+          ShowMessage(Exception(TThread(Sender).FatalException).Message);
+          Exit;
+        end;
+    end;
+
+  DmMercados.LimparCarrinhoLocal;
+  Close;
+end;
 
 procedure TfrmCarrinho.DownloadFoto(lb: TListBox);
 var
@@ -95,6 +113,31 @@ begin
   ListBoxProdutosCarinho.AddObject(item);
 end;
 
+procedure TfrmCarrinho.btnFinalizaPedidoClick(Sender: TObject);
+var
+  t: TThread;
+  jsonPedido: TJSONObject;
+  arrayItem: TJSONArray;
+begin
+  TLoading.Show(frmCarrinho, '');
+
+  t := TThread.CreateAnonymousThread(procedure
+    begin
+      try
+        jsonPedido := DmMercados.JsonPedido(lblSubTotal.TagFloat, lblTaxaEntrega.TagFloat, lblValorTotal.TagFloat);
+        jsonPedido.AddPair('itens', DmMercados.ArrayPedidoItem);
+
+        DmMercados.InserirPedido(jsonPedido);
+      finally
+        jsonPedido.DisposeOf;
+      end;
+
+    end);
+
+  t.OnTerminate := ThreadPedidoTerminate;
+  t.Start;
+end;
+
 procedure TfrmCarrinho.CarregarCarinho;
 var
   SubTotal: Double;
@@ -137,7 +180,9 @@ begin
       end;
 
     lblSubTotal.Text := FormatFloat('R$ #,##0.00', SubTotal);
+    lblSubTotal.TagFloat := SubTotal;
     lblValorTotal.Text := FormatFloat('R$ #,##0.00', SubTotal + lblTaxaEntrega.TagFloat);
+    lblValorTotal.TagFloat := SubTotal + lblTaxaEntrega.TagFloat;
 
     //Carrega as fotos
     DownloadFoto(ListBoxProdutosCarinho);
